@@ -106,7 +106,7 @@ if __name__ == "__main__":
     # Get non-controversial articles
     normal = get_random_list(len(cont), cont)
     get_articles_in_list(normal, handle_article("normal"))
-    dump_data_to_file("controversial", "last")
+    dump_data_to_file("normal", "last")
 
     end = time.time()
     print("Scrape took %f seconds" % (end - start))
