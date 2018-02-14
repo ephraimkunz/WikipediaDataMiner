@@ -56,15 +56,19 @@ def dump_data_to_file(count):
 
 def handle_article(article, count):
     dic = {}
-    dic["title"] = article.title
-    dic["pageid"] = article.pageid
-    dic["url"] = article.url
-    dic["content"] = article.content
-    dic["categories"] = article.categories
-    dic["image_urls"] = article.images
-    dic["links"] = article.links
-    dic["references"] = article.references
-    articles.append(dic)
+    try:
+        dic["title"] = article.title
+        dic["pageid"] = article.pageid
+        dic["url"] = article.url
+        dic["content"] = article.content
+        dic["categories"] = article.categories
+        dic["image_urls"] = article.images
+        dic["links"] = article.links
+        dic["references"] = article.references
+        articles.append(dic)
+    except Exception as e:
+        print("Failure to parse %s" % article.title)
+        skipped.append(article.title)
 
     if count > 0 and count % 100 == 0:
         dump_data_to_file(count)
@@ -84,6 +88,6 @@ if __name__ == "__main__":
 
     end = time.time()
 
-    print("Scrape took %d seconds" % end - start)
+    print("Scrape took %f seconds" % (end - start))
 
     print("Done")
