@@ -25,11 +25,14 @@ def get_articles_in_list(names, callback):
     for link in names:
         page = None
         try:
-            page = wikipedia.page(link, auto_suggest=False)
-        except Exception as e:
-            skipped.append(link)
-            print("Error fetching %s, skipping" % link)
-            continue
+            page = wikipedia.page(link)
+        except Exception:
+            try:
+                page = wikipedia.page(link, auto_suggest=False) # Turning off autosuggest sometimes helps us.
+            except Exception as e:
+                skipped.append(link)
+                print("Error fetching %s: %s, skipping" % (link, e))
+                continue
             
         callback(page, fetched)
 
