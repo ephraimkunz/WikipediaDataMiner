@@ -197,13 +197,14 @@ if __name__ == "__main__":
 
     # Dump anything left to a file
     dump_data_to_file("controversial", "last")
+    dump_skipped_to_file("controversial")
 
     # Get non-controversial articles
     normal = get_random_list(1500, cont)
     get_articles_in_list(normal, handle_article("normal"))
     dump_data_to_file("normal", "last")
 
-    dump_skipped_to_file("all")
+    dump_skipped_to_file("normal")
 
     end = time.time()
     print("Scrape took %f seconds" % (end - start))
