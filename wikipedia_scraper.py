@@ -40,7 +40,7 @@ def get_articles_in_list(names, callback):
         if not success:
             continue
 
-        if fetched % 20 == 0 and fetched != 0:
+        if fetched % 1 == 0 and fetched != 0:
             print("Fetched %d of %d articles: %f%%" % (fetched, len(names), (float(fetched) / len(names) * 100)))
 
         fetched += 1
@@ -193,13 +193,13 @@ if __name__ == "__main__":
 
     # Get controversial articles
     cont = get_controversial_list()
-    get_articles_in_list(cont[:20], handle_article("controversial"))
+    get_articles_in_list(cont, handle_article("controversial"))
 
     # Dump anything left to a file
     dump_data_to_file("controversial", "last")
 
     # Get non-controversial articles
-    normal = get_random_list(20, cont)
+    normal = get_random_list(1500, cont)
     get_articles_in_list(normal, handle_article("normal"))
     dump_data_to_file("normal", "last")
 
