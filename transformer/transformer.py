@@ -67,9 +67,9 @@ class Transformer():
             os.makedirs(os.path.dirname(self.output_path))
 
 
-        with open(self.output_path, 'wb') as f:
+        with open(self.output_path, 'w') as f:
             # pageid must come first
-            orig_keys = array[0].keys()
+            orig_keys = list(array[0].keys())
             orig_keys.remove("pageid")
             keys = ["pageid"]
             keys.extend(orig_keys)
@@ -84,6 +84,7 @@ class Transformer():
 
         file_list = self.get_file_list()
         transformed = []
+        count = 0
 
         for file in file_list:
             with open(file, "r") as f:
@@ -92,7 +93,8 @@ class Transformer():
                 articles = items["articles"]
 
                 for article in articles:
-                    trans = self.transformation(article)
+                    trans = self.transformation(article, count)
                     transformed.append(trans)
+                    count += 1
 
         self.dump_transformed(transformed)
