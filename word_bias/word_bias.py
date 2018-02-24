@@ -41,9 +41,15 @@ def word_bias(data, count):
 
 
         print(word)
+    output["num_positive_words"] = num_pos_words
+    output["num_negative_words"] = num_neg_words
+    output["num_controversial_words"] = num_controversial_words
+
     print("Positive Words: ", num_pos_words)
     print("Negative Words: ", num_neg_words)
     print("Controversial Words: ", num_controversial_words)
+
+    return output;
     #print(data["content"])
     """
     output["pageid"] = data["pageid"]
