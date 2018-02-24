@@ -84,5 +84,5 @@ print(negative_words)
 print(controversial_words)
 
 
-trans = Transformer("../raw_data/test/", "./word_bias.csv", word_bias)
+trans = Transformer("../raw_data/", "./word_bias.csv", word_bias)
 trans.run()
