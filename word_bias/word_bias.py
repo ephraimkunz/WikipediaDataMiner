@@ -16,7 +16,8 @@ def word_bias(data, count):
     num_pos_words = 0;
     num_neg_words = 0;
     num_controversial_words = 0;
-    for word in data["content"].split(): #iterate all the words in the content section
+    content = data["content"]
+    for word in content.split(): #iterate all the words in the content section
         """
         for char in word:
             if(char == '(' or char == ')' or char== ','):
@@ -27,20 +28,25 @@ def word_bias(data, count):
         if word in negative_words:
             num_neg_words += 1
 
-        """
-        # because controversial words can be phrases, use regular expressions instead
-        for controv_word in controversial_words:
-            regex = re.compile(" %s " % controv_word)
-            match = regex.findall(controv_word)
-            if(len(match) > 0):
-                num_controversial_words += 1;
-        """
-
+        """ find if a word is in the phrase at all, then count it
+        for controv_phrase in controversial_words:
+            split = controv_phrase.split()
+            if(word in split):
+                num_controversial_words +=1
+                """
+        """ dumb counter, will only count if the word matches the controversial phrase exactly, which is very rare
         if word in controversial_words:
             num_controversial_words += 1
+        """
 
+    # use regular expression to see if the controversial phrase is found in the entire article
+    # may be intractable, will have to see when running on the whole dataset
+    for controversial_phrase in controversial_words:
+        regex = re.compile("%s" % controversial_phrase)
+        match = regex.findall(content)
+        num_controversial_words += len(match)
 
-        print(word)
+    output["pageid"] = data["pageid"] # put the page id in here so that it can create the right csv
     output["num_positive_words"] = num_pos_words
     output["num_negative_words"] = num_neg_words
     output["num_controversial_words"] = num_controversial_words
@@ -50,19 +56,6 @@ def word_bias(data, count):
     print("Controversial Words: ", num_controversial_words)
 
     return output;
-    #print(data["content"])
-    """
-    output["pageid"] = data["pageid"]
-
-    revision_strings = data["revisions"]
-    revisions = map(lambda x: dateutil.parser.parse(x), revision_strings)
-
-    oldest = min(revisions)
-
-    output["article_age_in_days"] = (datetime.datetime.now(datetime.timezone.utc) - oldest).days
-    output["avg_revs_per_day"] = len(revision_strings) / output["article_age_in_days"]
-    return output
-    """
 
 def load_words(file):
     # Check for valid paths
@@ -91,5 +84,5 @@ print(negative_words)
 print(controversial_words)
 
 
-trans = Transformer("../raw_data/", "./word_bias.csv", word_bias)
+trans = Transformer("../raw_data/test/", "./word_bias.csv", word_bias)
 trans.run()
