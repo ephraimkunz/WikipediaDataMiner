@@ -6,6 +6,8 @@ import datetime
 
 sys.path.append('..')
 
+normalize = True;
+
 from transformer.transformer import Transformer
 
 def word_bias(data, count):
@@ -18,11 +20,6 @@ def word_bias(data, count):
     num_controversial_words = 0;
     content = data["content"]
     for word in content.split(): #iterate all the words in the content section
-        """
-        for char in word:
-            if(char == '(' or char == ')' or char== ','):
-                word.remove(char)
-        """
         if word in positive_words:
             num_pos_words += 1
         if word in negative_words:
@@ -46,14 +43,32 @@ def word_bias(data, count):
         match = regex.findall(content)
         num_controversial_words += len(match)
 
-    output["pageid"] = data["pageid"] # put the page id in here so that it can create the right csv
-    output["num_positive_words"] = num_pos_words
-    output["num_negative_words"] = num_neg_words
-    output["num_controversial_words"] = num_controversial_words
+    pos_word_title = ""
+    neg_word_title = ""
+    controversial_word_title = ""
 
-    print("Positive Words: ", num_pos_words)
-    print("Negative Words: ", num_neg_words)
-    print("Controversial Words: ", num_controversial_words)
+    if(normalize):
+        total_words = len(data['content']);
+        num_pos_words = num_pos_words / total_words;
+        num_neg_words = num_neg_words / total_words;
+        num_controversial_words = num_controversial_words / total_words;
+        pos_word_title = "num_positive_words";
+        neg_word_title = "num_negative_words";
+        controversial_word_title = "num_controversial_words";
+    else:
+        # leave the total word counts as is, just change the title
+        pos_word_title = "%_positive_words";
+        neg_word_title = "%_negative_words";
+        controversial_word_title = "%_controversial_words";
+
+    output["pageid"] = data["pageid"] # put the page id in here so that it can create the right csv
+    output[pos_word_title] = num_pos_words
+    output[neg_word_title] = num_neg_words
+    output[controversial_word_title] = num_controversial_words
+
+    #print("Positive Words: ", num_pos_words)
+    #print("Negative Words: ", num_neg_words)
+    #print("Controversial Words: ", num_controversial_words)
 
     return output;
 
@@ -84,5 +99,5 @@ print(negative_words)
 print(controversial_words)
 
 
-trans = Transformer("../raw_data/", "./word_bias.csv", word_bias)
+trans = Transformer("../raw_data/binned_data/", "./binned_normalized_word_bias.csv", word_bias)
 trans.run()
