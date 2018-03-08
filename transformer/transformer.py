@@ -47,10 +47,10 @@ class Transformer():
             if not self.input_path.endswith("/"):
                 self.input_path += "/"
 
-            for filename in glob.glob(self.input_path + "controversial*.json"):
+            for filename in glob.glob(self.input_path + "bin*.json"):
                 filenames.append(filename)
 
-            for filename in glob.glob(self.input_path + "normal*.json"):
+            for filename in glob.glob(self.input_path + "controversial*.json"):
                 filenames.append(filename)
 
             return filenames

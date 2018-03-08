@@ -22,5 +22,5 @@ def revisions(data, count):
     output["avg_revs_per_day"] = len(revision_strings) / output["article_age_in_days"]
     return output
 
-trans = Transformer("../articles/", "./revisions.csv", revisions)
+trans = Transformer("../articles/", "./revisions-binned.csv", revisions)
 trans.run()

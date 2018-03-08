@@ -16,5 +16,5 @@ def dumb_counter(data, count):
     output["num_revisions"] = len(data["revisions"])
     return output
 
-trans = Transformer("../articles/", "./dumb_counts.csv", dumb_counter)
+trans = Transformer("../articles/", "./dumb_counts_binned.csv", dumb_counter)
 trans.run()

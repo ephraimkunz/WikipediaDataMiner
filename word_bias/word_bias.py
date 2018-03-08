@@ -99,5 +99,5 @@ print(negative_words)
 print(controversial_words)
 
 
-trans = Transformer("../raw_data/binned_data/", "./binned_normalized_word_bias.csv", word_bias)
+trans = Transformer("../articles", "./binned_normalized_word_bias.csv", word_bias)
 trans.run()
