@@ -12,6 +12,7 @@ def revisions(data, count):
 
     output = {}
     output["pageid"] = data["pageid"]
+    output["num_revisions"] = len(data["revisions"])
 
     revision_strings = data["revisions"]
     revisions = map(lambda x: dateutil.parser.parse(x), revision_strings)

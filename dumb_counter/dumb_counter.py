@@ -13,7 +13,6 @@ def dumb_counter(data, count):
     output["num_links_in"] = len(data["inbound_links"])
     output["num_links_out"] = len(data["links"])
     output["num_references"] = len(data["references"])
-    output["num_revisions"] = len(data["revisions"])
     return output
 
 trans = Transformer("../articles/", "./dumb_counts_binned.csv", dumb_counter)
