@@ -59,7 +59,7 @@ model = sklearn.ensemble.ExtraTreesClassifier(n_estimators=10, n_jobs=-1)
 scores = cross_val_score(model, attr, newlabels, cv=20)
 print("Extra trees: {}".format(scores.mean()))
 
-# Extra trees
+# Random forest
 model = sklearn.ensemble.RandomForestClassifier(n_jobs=-1)
 scores = cross_val_score(model, attr, newlabels, cv=10)
 print("Random Forest: {}".format(scores.mean()))
