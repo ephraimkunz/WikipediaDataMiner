@@ -6,7 +6,7 @@ import datetime
 
 sys.path.append('..')
 
-normalize = True;
+normalize = False;
 
 from transformer.transformer import Transformer
 
@@ -19,22 +19,15 @@ def word_bias(data, count):
     num_neg_words = 0;
     num_controversial_words = 0;
     content = data["content"]
-    for word in content.split(): #iterate all the words in the content section
+    for split_word in content.split(): #iterate all the words in the content section
+        # parse the word so that all that are left are alpha-numberic charcters or - or / (in case of words like mid-2018)
+        word = ''.join(e for e in split_word if (e.isalnum() or e == '-' or e == '/' ))
+
+        #print(word)
         if word in positive_words:
             num_pos_words += 1
         if word in negative_words:
             num_neg_words += 1
-
-        """ find if a word is in the phrase at all, then count it
-        for controv_phrase in controversial_words:
-            split = controv_phrase.split()
-            if(word in split):
-                num_controversial_words +=1
-                """
-        """ dumb counter, will only count if the word matches the controversial phrase exactly, which is very rare
-        if word in controversial_words:
-            num_controversial_words += 1
-        """
 
     # use regular expression to see if the controversial phrase is found in the entire article
     # may be intractable, will have to see when running on the whole dataset
@@ -99,5 +92,5 @@ print(negative_words)
 print(controversial_words)
 
 
-trans = Transformer("../articles", "./binned_normalized_word_bias.csv", word_bias)
+trans = Transformer("../articles", "./binned_better_word_bias.csv", word_bias)
 trans.run()
