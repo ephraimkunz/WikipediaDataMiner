@@ -13,8 +13,8 @@ def revisions(data, count):
     output = {}
     output["pageid"] = data["pageid"]
 
-    output["class"] = "yes"
+    output["class"] = "no"
     return output
 
-trans = Transformer("../articles/", "./output_classes_binned_yes.csv", revisions)
+trans = Transformer("../articles/", "./output_classes_binned_no.csv", revisions)
 trans.run()

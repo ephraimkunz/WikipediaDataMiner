@@ -1,7 +1,7 @@
 import csv
 
-fileList = ["dumb_counter/dumb_counts_binned.csv", "output_classes/output_classes_binned.csv", "revisions/revisions-binned.csv", "word_bias/binned_normalized_word_bias.csv", "tld_transform/tld-binned.csv"]
-output = "combined_binned.arff"
+fileList = ["dumb_counter/dumb_counts_binned.csv", "output_classes/output_classes_binned.csv", "word_bias/binned_better_word_bias.csv", "tld_transform/tld_binned.csv"]
+output = "combined_binned_better_wordcount_not_normalized.arff"
 
 datasets = [] # array of dicts that look like this: {pageId: {attributes}, pageId: {attributes}}
 
@@ -37,11 +37,11 @@ with open(output, "w") as f:
     orig_keys = list(final_set[0].keys())
     orig_keys.remove("pageid") # First item
     orig_keys.remove("class") # Want to be the last column in final dataset
-    keys = []
+    keys = ["pageid"]
     keys.extend(orig_keys)
     keys.append("class")
     writer = csv.DictWriter(f, keys)
     writer.writeheader()
-    for item in final_set:
-        del item["pageid"]
+    # for item in final_set:
+    #     del item["pageid"]
     writer.writerows(final_set)

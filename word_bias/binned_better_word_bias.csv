@@ -1,4 +1,4 @@
-pageid,%_positive_words,%_negative_words,%_controversial_words
+pageid,num_positive_words,num_negative_words,num_controversial_words
 20184567,2,0,0
 14526706,35,3,0
 22351923,10,0,0
